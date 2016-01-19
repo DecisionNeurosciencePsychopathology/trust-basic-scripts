@@ -1,5 +1,4 @@
 # trust_basic_scripts: 
-# basic scripts for project trust game
 1. trustbehavior.m: load in the data file from e-prime to create an individual .mat file.
 2. trust_group.m: grouping the data from multiple subjects to save in spss format file.
 3. trust_makeregressor_group.m: making regresssor files from .mat subject files.
