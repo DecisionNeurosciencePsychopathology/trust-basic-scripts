@@ -47,12 +47,14 @@ numdata = zeros(trials, length(fields))-999;
 line = 0;
 
 % Reading in all of the data
+% note that if a partial match of the field name is needed, use strfind
+% instead of strcmp below
 for ind = 1:trials
     startline = proclines(ind)-startoffset*2;
     endline = proclines(ind)+endoffset*2;
     for line=startline:endline
         for field=1:length(fields)
-        if(strfind(strtrim(char(txt(line))),char(fields(field))))
+        if(strcmp(strtrim(char(txt(line))),char(fields(field))))
             data(ind,field)=txt(line+1);
             numval=str2double(char(data(ind,field)));
             if isnan(numval) 
@@ -68,6 +70,8 @@ for ind = 1:trials
     
 end
 
+
+
 if(isempty(data{end,1}))
 	data=data(1:end-1,:);
 	numdata=numdata(1:end-1,:);
@@ -80,6 +84,8 @@ for ct=1:length(fields)
     	curdata=numdata(:,ct);
   	end
   	fldname=strrep(char(fields(ct)),'.','_');
+   %fldname=strrep(char(fields(ct)),':','');
+   % fldname=genvarname(char(fields(ct)));
   	b=setfield(b,fldname,curdata);
 end
 

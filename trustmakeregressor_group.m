@@ -115,7 +115,7 @@ for index=1:num_of_subjects
         feedback.event_beg(:,block) = b.outcome_OnsetTime(trial1_index:trial48_index)-firstfix_Onset;
         feedback.event_end(:,block) = b.outcome_OffsetTime(trial1_index:trial48_index)-firstfix_Onset;
         
-        %epoch window + missed trials + to censor regressor
+        %epoch window + missed trials + to censor regressor 
         epoch_window = 0:bin_size:decision.event_end(48, block);   
        
         if any(b.missed_trials(trial1_index:trial48_index))==0
@@ -124,22 +124,44 @@ for index=1:num_of_subjects
            tmp_reg.(['regressors' num2str(block)]).to_censor = createSimpleRegressor(decision.event_beg,decision.event_end, epoch_window, b.missed_trials(trial1_index:trial48_index)); 
            tmp_reg.(['regressors' num2str(block)]).to_censor = ones(size(tmp_reg.(['regressors' num2str(block)]).to_censor)) - tmp_reg.(['regressors' num2str(block)]).to_censor;
         end
-        
-        if block < 4
-            firstfix_Onset = b.ITIfixation_OnsetTime(trial2_ITI-1+48);
-        end
-        trial2_ITI=trial2_ITI+48;
-        trial48_ITI=trial48_ITI+48;
-        trial1_index = trial1_index+48;
-        trial48_index = trial48_index+48;
-        
+       
+               
         tmp = gsresample( ...
          [zeros(50,1)' tmp_reg.(['regressors' num2str(block)]).to_censor(1:end-51)], ...
          10,1./scan_tr);
         tmp = floor(tmp);
         tmp = [tmp ones(1, (block_length-1)-length(tmp))];
         tmp = [tmp zeros(1,155-length(tmp))];
-        tmp_reg.(['regressors' num2str(block)]).to_censor = tmp;      
+        tmp_reg.(['regressors' num2str(block)]).to_censor = tmp; 
+        
+        %to censor regressor for PE maps: first trial in first block should
+        %be censored
+        if block == 1
+            tmp_reg.(['regressors' num2str(block)]).to_censor_PEmaps = createSimpleRegressor(decision.event_beg,decision.event_end, epoch_window, [0 b.missed_trials(2:trial48_index)]);
+            tmp_reg.(['regressors' num2str(block)]).to_censor_PEmaps = ones(size(tmp_reg.(['regressors' num2str(block)]).to_censor_PEmaps)) - tmp_reg.(['regressors' num2str(block)]).to_censor_PEmaps;
+        elseif any(b.missed_trials(trial1_index:trial48_index))==0
+            tmp_reg.(['regressors' num2str(block)]).to_censor_PEmaps = ones(size(createSimpleRegressor(decision.event_beg, decision.event_end, epoch_window))); 
+        else
+            tmp_reg.(['regressors' num2str(block)]).to_censor_PEmaps = createSimpleRegressor(decision.event_beg,decision.event_end, epoch_window, b.missed_trials(trial1_index:trial48_index)); 
+            tmp_reg.(['regressors' num2str(block)]).to_censor_PEmaps = ones(size(tmp_reg.(['regressors' num2str(block)]).to_censor_PEmaps)) - tmp_reg.(['regressors' num2str(block)]).to_censor_PEmaps;
+        end
+              
+        tmp2 = gsresample( ...
+         [zeros(50,1)' tmp_reg.(['regressors' num2str(block)]).to_censor_PEmaps(1:end-51)], ...
+         10,1./scan_tr);
+        tmp2 = floor(tmp);
+        tmp2 = [tmp2 ones(1, (block_length-1)-length(tmp2))];
+        tmp2 = [tmp2 zeros(1,155-length(tmp))];
+        tmp_reg.(['regressors' num2str(block)]).to_censor_PEmaps = tmp2; 
+     
+        %for next loop iteration, reinitilize variables
+        if block < 4
+            firstfix_Onset = b.ITIfixation_OnsetTime(trial2_ITI-1+48);
+        end
+        trial2_ITI=trial2_ITI+48;
+        trial48_ITI=trial48_ITI+48;
+        trial1_index = trial1_index+48;
+        trial48_index = trial48_index+48;       
     end
     fixations.event_beg=reshape(fixations.event_beg,[192,1]);
     fixations.event_end=reshape(fixations.event_end,[192,1]);
@@ -153,7 +175,11 @@ for index=1:num_of_subjects
     %concatenating
     b.to_censor = [tmp_reg.regressors1.to_censor tmp_reg.regressors2.to_censor tmp_reg.regressors3.to_censor tmp_reg.regressors4.to_censor]; 
     b.to_censor = transpose(b.to_censor);
+    b.to_censor_PEmaps = [tmp_reg.regressors1.to_censor_PEmaps tmp_reg.regressors2.to_censor_PEmaps tmp_reg.regressors3.to_censor_PEmaps tmp_reg.regressors4.to_censor_PEmaps]; 
+    b.to_censor_PEmaps = transpose(b.to_censor_PEmaps);
+    
     %plot(b.to_censor);
+       
     
     %exclude missed trials
     b.notmissed_trials = (b.partnerchoice_RESP~=-999);
@@ -189,6 +215,7 @@ for index=1:num_of_subjects
     [b.stim_times.t_shared_fsl,b.stim_times.t_shared_spmg]=write3Ddeconv_startTimes(data_dump_str,feedback.event_beg,feedback.event_end,'tshared_Times',b.t_share,0);
     
     gdlmwrite(strcat(data_dump_str, 'to_censor'),[b.to_censor],'\t');
+    gdlmwrite(strcat(data_dump_str, 'to_censor'),[b.to_censor_PEmaps],'\t');
 end
 
 

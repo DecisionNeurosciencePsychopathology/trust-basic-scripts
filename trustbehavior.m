@@ -5,8 +5,8 @@ function b = trustbehavior(id)
 
 
 
-data_dir_str= '/Users/polinavanyukov/Box Sync/Project Trust Game/data/trust data recent/';
-filename = sprintf('/Users/polinavanyukov/Box Sync/Project Trust Game/data/trust data recent/temp_regs/trust%d.mat',id);
+data_dir_str= '/Users/polinavanyukov/Box Sync/Project Trust Game/data/trust data 02192016/';
+filename = sprintf('/Users/polinavanyukov/Box Sync/Project Trust Game/data/trust data 02192016/behavior scan/trust%d.mat',id);
 
 %% Find the eprime file - MODIFY PATHS IF NEEDED
 %cd('/Users/polinavanyukov/Box Sync/Project Trust Game/eprime')
@@ -35,10 +35,12 @@ else
     stringid=num2str(id);
     id5=stringid(2:end);
 end
-subdir=sprintf('%d',id);
+subdir=dir(sprintf('%d*',id));
 
-cd(subdir)
-fname = sprintf('trust_09172014_scan_rs2-%s-1.txt', id5);
+cd(subdir.name)
+file = dir(sprintf('trust*%s*.txt', id5));
+fname = file.name;
+%fname = sprintf('trust_05222015_scan_rs3-%s-1.txt', id5);
 %fname = 'trust_05192015_scan_rs4-0064-1.txt';
 %Added more fields for timing checking
 debug_fields = {'displaychoice.OnsetTime', 'displaychoice.OffsetTime', ...
@@ -53,7 +55,7 @@ fields = {'ConditionOrder','identity','Running','partnerchoice.RESP',...
      'ITIfixation.OnsetTime','ITIfixation.Duration',...
      'ITIfixation.OffsetTime', 'ITIjitter','partnerchoice.OffsetTime', debug_fields{:}};
 startoffset = 14; % trust: from TrialProc occurrence to the beginning of the block containing relevant info
-endoffset = 35;   % trust: from TrialProc occurrence to the end of the block containing relevant info
+endoffset = 32;   % trust: from TrialProc occurrence to the end of the block containing relevant info
 b = read_in_trust(fname,'TrialProc', fields, startoffset, endoffset);
 
 trials = 192;

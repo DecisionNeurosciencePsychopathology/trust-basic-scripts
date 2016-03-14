@@ -5,11 +5,11 @@ data_dump_str = '/Users/polinavanyukov/Box Sync/Project Trust Game/regs/asterisk
 
 if ~exist(data_dump_str,'file')
     mkdir(data_dump_str)
-    fprintf('Creating id specific reg folder in: %s\n\n',data_dump_str);
+    fprintf('Creating specific reg folder in: %s\n\n',data_dump_str);
 end
 
 cd(data_dir_str)
-files = dir('*.dat');
+files = dir('*shifted*_PEs.dat');
 num_of_subjects = length(files);
 
 for index = 1:num_of_subjects
@@ -27,5 +27,5 @@ for index = 1:num_of_subjects
 end
 
 
-end
+return
 
