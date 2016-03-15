@@ -6,7 +6,7 @@ function b = trustmakeregressor_group()
 %data_dir_str= '/Volumes/bek/trust_analyses/regs/scan_behavior/';
 %data_dump_str = '/Volumes/bek/trust_analyses/regs/';
 %grabbing files
-data_dir_str= '/Users/polinavanyukov/Box Sync/Project Trust Game/data/trust data recent/scan_behavior/';
+data_dir_str= '/Users/polinavanyukov/Box Sync/Project Trust Game/data/processed/';
 data_dump_str = '/Users/polinavanyukov/Box Sync/Project Trust Game/regs/';
 
 if ~exist(data_dump_str,'file')

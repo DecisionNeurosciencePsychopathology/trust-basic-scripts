@@ -9,7 +9,7 @@ if ~exist(data_dump_str,'file')
 end
 
 cd(data_dir_str)
-files = dir('*shifted*_PEs.dat');
+files = dir('*shifted*posPEs.dat');
 num_of_subjects = length(files);
 
 for index = 1:num_of_subjects
