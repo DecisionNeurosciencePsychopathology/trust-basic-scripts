@@ -5,6 +5,9 @@
 4. asterisk.m: inserting asterisks into the existing regressor files (necessary to indicate multiple runs).
 5. plot_trust_data.m: plotting behavioral data from trust.
 6. subsample_demo.m: combines excel demographics with the matlab file of group data.
+7. trustsurvey.m: load the survey data for a single subject and save as .mat file
+8. trust_group_survey.m: collects the survey data (.mat) from all subjects and saves in a table w/ means
+
 
 helper functions:
 1. read_in_trust.m: reads in e-prime file, used by trustbehavior.m
