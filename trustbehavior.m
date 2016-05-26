@@ -5,8 +5,8 @@ function b = trustbehavior(id)
 
 
 
-data_dir_str= '/Users/polinavanyukov/Box Sync/Project Trust Game/data/trust data 02192016/';
-filename = sprintf('/Users/polinavanyukov/Box Sync/Project Trust Game/data/trust data 02192016/behavior scan/trust%d.mat',id);
+data_dir_str= '/Users/polinavanyukov/Box Sync/Suicide studies/data/';
+filename = sprintf('/Users/polinavanyukov/Box Sync/Project Trust Game/data/processed/scan_behavior/trust%d.mat',id);
 
 %% Find the eprime file - MODIFY PATHS IF NEEDED
 %cd('/Users/polinavanyukov/Box Sync/Project Trust Game/eprime')
@@ -38,7 +38,12 @@ end
 subdir=dir(sprintf('%d*',id));
 
 cd(subdir.name)
-file = dir(sprintf('trust*%s*.txt', id5));
+
+file = dir(sprintf('trust*%d*.txt', id));
+if isempty(file)
+  file = dir(sprintf('trust*%s*.txt', id5));  
+end
+
 fname = file.name;
 %fname = sprintf('trust_05222015_scan_rs3-%s-1.txt', id5);
 %fname = 'trust_05192015_scan_rs4-0064-1.txt';
@@ -69,8 +74,12 @@ for i=1:trials
         end
     catch
         throw_trust_error(id)
-        return
+        %return
     end
+end
+
+if length(b.TrialNumber) > 192
+    b = structfun(@(x) (x(13:end)), b, 'UniformOutput', false);
 end
 
 %Decisions share = 1; keep = -1; no response = 0;
@@ -179,7 +188,7 @@ for ind=start+1:trials
     end
 end
 
-save(filename);
+save(filename, 'b');
 
 %%
 

@@ -1,12 +1,12 @@
 
 %read in database files
-[num,txt,raw]=xlsread('splashDemo2.xlsx');
+[num,txt,raw]=xlsread('demos.xlsx');
 
-beha=load('allsubjects.mat');
-scan=load('allsubjects2.mat');
+beha=load('beha_behavior_data.mat');
+scan=load('scan_behavior_data.mat');
 
-beha.ready=cat(2,beha.x,ones(size(beha.x,1),1));
-scan.ready=cat(2,scan.x,zeros(size(scan.x,1),1));
+beha.ready=cat(2,beha.x,ones(size(beha.x,1),1)); %column 13: 1 = behavior
+scan.ready=cat(2,scan.x,zeros(size(scan.x,1),1));%column 13: 0 = scan
 x = cat(1,beha.ready,scan.ready);
 save('beha_n_scan.mat','x');
 
@@ -50,9 +50,13 @@ save('all_behavior_demo.mat','test');
 %demographics
 Names = {'subject','trialnum','trustee','exchange','reward_schedule',...
     'exch2','s_decision','t_decision','decision_Onset','decision_RT',...
-    'feedback_Onset','feedback_Offset','beha1scan0','id2','study',...
-    'initials','consent','consent_age','today_age','dateTermin','pattype',...
+    'feedback_Onset','feedback_Offset','beha1scan0','id2','exptype',...
+    'protocol','initials','consent_date','consent_age','today_age','dateTermin','pattype',...
     'comment','group1245','group12467','sext','ethnicity','racet','maxleth',...
     'maxofEDUC'};
 
-behav_demo=cell2table(test,'VariableNames',Names);
+behavior_n_demographics=cell2table(test,'VariableNames',Names);
+filename = '/Users/polinavanyukov/Box Sync/Project Trust Game/analyses/poster/group_behavior_demos'; 
+%no_ideators = behavior_n_demographics(not(cell2mat(behavior_n_demographics.group1245)=='4'),:);
+%writetable(no_ideators,filename);
+writetable(behavior_n_demographics, '/Users/polinavanyukov/Box Sync/Project Trust Game/analyses/poster/all_behavior_demos');

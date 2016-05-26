@@ -9,7 +9,7 @@ else
     [~, me] = system('whoami');
     me = strtrim(me);
     if strcmp(me,'polinavanyukov')==1
-        datalocation = glob('/Users/polinavanyukov/Box Sync/Project Trust Game/data/trust data recent/scan_behavior');
+        datalocation = glob('/Users/polinavanyukov/Box Sync/Project Trust Game/data/processed/scan_behavior/surveys/');
     else
         datalocation = glob('?');
     end

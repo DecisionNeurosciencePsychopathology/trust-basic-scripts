@@ -11,14 +11,14 @@ else
     [~, me] = system('whoami');
     me = strtrim(me);
     if strcmp(me,'polinavanyukov')==1
-        datalocation = glob('/Users/polinavanyukov/Box Sync/Project Trust Game/data/trust data recent/');
+        datalocation = glob('/Users/polinavanyukov/Box Sync/Suicide studies/data/');
     else
         datalocation = glob('?');
     end
 end
 
 
-filename = sprintf('/Users/polinavanyukov/Box Sync/Project Trust Game/data/trust data recent/scan_behavior/trust_survey%d.mat',id);
+filename = sprintf('/Users/polinavanyukov/Box Sync/Project Trust Game/data/processed/scan_behavior/surveys/trust_survey%d.mat',id);
 
 %% Find the eprime file - MODIFY PATHS IF NEEDED
 
