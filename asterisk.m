@@ -1,6 +1,6 @@
 function b = asterisk()
 %adding asterisk to existing .dat files
-data_dir_str= ['/Users/polinavanyukov/Box Sync/Project Trust Game/regs/23-May-2016'];
+data_dir_str= ['/Users/polinavanyukov/Box Sync/Project Trust Game/regs/13-Jun-2016/'];
 data_dump_str = '/Users/polinavanyukov/Box Sync/Project Trust Game/regs/asterisked regs/';
 
 if ~exist(data_dump_str,'file')
@@ -9,7 +9,7 @@ if ~exist(data_dump_str,'file')
 end
 
 cd(data_dir_str)
-files = dir('*values*.dat');
+files = dir('*.dat');
 num_of_subjects = length(files);
 
 parfor index = 1:num_of_subjects

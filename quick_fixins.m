@@ -22,7 +22,7 @@ for index=1:num_of_subjects
         
 end
 
-load('trust212857.mat');
+load('trust212856.mat');
 subject_trials = length(b.ConditionOrder);
 trials = 192;
 to_fill = [subject_trials+1:trials];
@@ -31,7 +31,7 @@ b.identity(to_fill)={'-999'};
 b.partnerchoice_RESP(to_fill) = -999;
 b.TrusteeDecides(to_fill) = {'-999'};
 b.TrialNumber(to_fill) = to_fill;
-b.exchangeNum(to_fill)=[1:48 1:48];
+b.exchangeNum(to_fill)=[1:48];
 b.partnerchoice_OnsetTime(to_fill) = -999;
 b.partnerchoice_RTTime(to_fill) = -999;
 b.partnerchoice_RT(to_fill) = -999;
@@ -50,4 +50,15 @@ b.displaychoice_OnsetTime(to_fill)=-999;
 b.displaychoice_OffsetTime(to_fill)=-999;
 b.firstFixation_OnsetTime(to_fill)=-999;
 b.decisions(to_fill)=-999;
-save('trust219471.mat','b');
+save('trust212856.mat','b');
+
+ if not(exist('decisions'))
+            share =~cellfun(@isempty,strfind(b.PartDecides,'share'));
+            keep =~cellfun(@isempty,strfind(b.PartDecides,'keep'));
+            noresponse = ~cellfun(@isempty,strfind(b.PartDecides,'noresponse'));
+            b.decisions = zeros(192, 1);
+            b.decisions(share) = 1;
+            b.decisions(keep) = -1;
+            b.decisions(noresponse) = 0;
+            save('trust212857.mat','b');
+ end
