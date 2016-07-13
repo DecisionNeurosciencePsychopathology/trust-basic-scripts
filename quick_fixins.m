@@ -62,3 +62,5 @@ save('trust212856.mat','b');
             b.decisions(noresponse) = 0;
             save('trust212857.mat','b');
  end
+ 
+ 
