@@ -39,7 +39,7 @@ subdir=dir(sprintf('%d*',id));
 
 cd(subdir.name)
 
-file = dir(sprintf('trust*%d*.txt', id));
+file = dir(sprintf('trust*scan*%d*.txt', id));
 if isempty(file)
   file = dir(sprintf('trust*%s*.txt', id5));  
 end

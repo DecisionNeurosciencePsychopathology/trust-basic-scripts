@@ -17,8 +17,10 @@ function [] = trust_group()
 
 clear all;
 
-data_location = '/Users/polinavanyukov/Box Sync/Project Trust Game/data/processed/scan_behavior';
+%data_location = '/Users/polinavanyukov/Box Sync/Project Trust Game/data/processed/scan_behavior';
+data_location = '/Users/polinavanyukov/Box Sync/Project Trust Game/data/processed/beha_behavior';
 cd(data_location)
+
 files_mat = dir('trust*.mat');
 num_of_subjects = length(files_mat);
 
@@ -121,10 +123,15 @@ end
 %save4spss_mac(c.Names, c.Data, output_filename);
 %mkdir group_data
 cd group_data
-save scan_behavioral_group c; %everything
+%save scan_behavioral_group c; %everything
+save beha_behavioral_group c; %everything
 x = c.Data;
-data_dir_str = '/Users/polinavanyukov/Box Sync/Project Trust Game/data/processed/scan_behavior/group_data';
-save(sprintf(strcat(data_dir_str,'/scan_behavior_data.mat')),'x'); %data only
+% data_dir_str = '/Users/polinavanyukov/Box Sync/Project Trust Game/data/processed/scan_behavior/group_data';
+% save(sprintf(strcat(data_dir_str,'/scan_behavior_data.mat')),'x'); %data only
+
+data_dir_str = '/Users/polinavanyukov/Box Sync/Project Trust Game/data/processed/beha_behavior/group_data';
+save(sprintf(strcat(data_dir_str,'/beha_behavior_data.mat')),'x'); %data only
+
 
 
 end

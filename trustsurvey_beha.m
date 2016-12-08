@@ -1,4 +1,4 @@
-function b = trustsurvey(id)
+function b = trustsurvey_beha(id)
 
 %reading in one subject's survey pre and post data;
 
@@ -56,21 +56,29 @@ num_of_subjects = length(files);
 % fname_1 = sprintf('trust_10212014_prescan-%s-1.txt', id5(1:end));
 % fname_2 = sprintf('trust_10212014_postscan-%s-1.txt', id5(1:end));
 
-fname_1 = dir('*prescan*.txt');
-fname_2 = dir('*postscan*.txt');
+fname_1 = dir('*laptop*1.txt');
+%fname_2 = dir('*laptop*2.txt');
 
 fields = {'procedure','Name','Question','Rating'};
 startoffset = 2; % trust survey: from procedure occurrence to the beginning of the block containing relevant info
 endoffset = 18;   % trust survey: from procedure occurrence to the end of the block containing relevant info
 b = read_in_trust(fname_1.name,'procedure', fields, startoffset, endoffset);
-startoffset = 2; % trust survey: from procedure occurrence to the beginning of the block containing relevant info
-endoffset = 18;   % trust survey: from procedure occurrence to the end of the block containing relevant info
-fields = {'procedure','Name', 'Question','Rating'};
-c = read_in_trust(fname_2.name,'procedure', fields, startoffset, endoffset);
+
+% startoffset = 2; % trust survey: from procedure occurrence to the beginning of the block containing relevant info
+% endoffset = 19;   % trust survey: from procedure occurrence to the end of the block containing relevant info
+% fields = {'procedure','Name', 'Question','Rating'};
+% c = read_in_trust(fname_2.name,'RatingsList1', fields, startoffset, endoffset);
+c.procedure= b.procedure(217:240);
+c.Name = b.Name(217:240);
+c.Question = b.Question(217:240);
+c.Rating = b.Rating(217:240);
+
+b.procedure = [b.procedure(1:8)];
 b.trustee = strrep(b.procedure,'ratings','');
 b.trustee = cellstr(b.trustee([1:8]));
 b.Rating = b.Rating([1:8],:);
 b.Question = b.Question([1:8]);
+
 c.trustee = strrep(c.procedure,'ratings','');
 c.trustee = c.trustee([1:24],:);
 c.Rating = c.Rating([1:24],:); 
