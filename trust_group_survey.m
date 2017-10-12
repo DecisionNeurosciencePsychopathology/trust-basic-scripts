@@ -1,4 +1,4 @@
-%Pulling all the surveys into one group survey and performing some basic
+function trust_group_survey()%Pulling all the surveys into one group survey and performing some basic
 %operations
 %Quick username check, and path setting, this may have to change depending
 %on the machine you are currently working on!
@@ -9,7 +9,7 @@ else
     [~, me] = system('whoami');
     me = strtrim(me);
     if strcmp(me,'polinavanyukov')==1
-        datalocation = glob('/Users/polinavanyukov/Box Sync/Project Trust Game/data/processed/scan_behavior/surveys/');
+        datalocation = glob('/Users/polinavanyukov/Box Sync/Project Trust Game/data/processed/beha_behavior/surveys/');
     else
         datalocation = glob('?');
     end
@@ -31,3 +31,4 @@ save('trust_group_survey','group_survey_table');
 b = group_survey_table;
 func = @mean;
 varMeans = varfun(func, b, 'InputVariables', {'Rating_Pre','Rating_Post'}, 'GroupingVariables',{'Trustee','Question'});
+end

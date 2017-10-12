@@ -52,6 +52,9 @@ line = 0;
 for ind = 1:trials
     startline = proclines(ind)-startoffset*2;
     endline = proclines(ind)+endoffset*2;
+if endline > length(txt)
+    endline = length(txt);
+end
     for line=startline:endline
         for field=1:length(fields)
         if(strcmp(strtrim(char(txt(line))),char(fields(field))))

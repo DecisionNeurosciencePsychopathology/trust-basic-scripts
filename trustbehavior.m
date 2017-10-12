@@ -51,7 +51,7 @@ end
 % % 
 % % cd(subdir.name)
 
-file = dir(sprintf('trust*_scan_*%d*.txt', id));
+file = dir(sprintf('trust*scan*%d*.txt', id));
 if isempty(file)
   file = dir(sprintf('trust*%s*.txt', id5));  
 end

@@ -12,23 +12,24 @@ cd(data_dir_str)
 files = dir('trust*.mat');
 num_of_subjects = length(files);
 
-for k=34
+for k=18
 %for k=1:58
     filename = files(k).name;
     fprintf('File processing: %s\n', filename);
     id = filename(isstrprop(filename,'digit'));
     if not(str2double(id)==219956||str2double(id)==220017)
         load(filename);
-        if ischar(id)
+        if ischar(id) 
             id = str2double(id);
         end
         %First get index of id or kick out
         id_idx=find(ismember(fd_max.Subjects,id), 1);
+        
         if isempty(id_idx)
             fprintf('Subject is not on censor block list: %d\n' , id);
         end
         censor_limit = 5;
-        bad_block = strcmp(b.identity, 'bad');
+        bad_block = strcmp(b.identity, 'good');
         trials_bad = find(bad_block,1);
         if trials_bad < 49
             block = 1;

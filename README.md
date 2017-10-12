@@ -7,6 +7,8 @@
 6. subsample_demo.m: combines excel demographics with the matlab file of group data.
 7. trustsurvey.m: load the survey data for a single subject and save as .mat file
 8. trust_group_survey.m: collects the survey data (.mat) from all subjects and saves in a table w/ means
+9. trust_combsurveyregs.m: after reading in survey data for new participants, combines their survey data w/ .mat subject reg files.
+10. trust_survey_visualize.m: helps to visualize survey data.
 
 
 helper functions:
