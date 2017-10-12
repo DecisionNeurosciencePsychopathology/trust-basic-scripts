@@ -1,12 +1,23 @@
-function b = trustbehavior(id)
+function b = trustbehavior(id,destination_path,local_dir)
 % Polina Vanyukov, Jon Wilson & Alex Dombrovski
 % 2014-05: revision of the program for the trust game paradigm
 % Program that reads in a single data file
 
 
 
-data_dir_str= '/Users/polinavanyukov/Box Sync/Suicide studies/data/';
-filename = sprintf('/Users/polinavanyukov/Box Sync/Project Trust Game/data/processed/scan_behavior/trust%d.mat',id);
+%data_dir_str= '/Users/polinavanyukov/Box Sync/Suicide studies/data/';
+%10/21/2016 -- for now
+% data_dir_str = 'C:\Users\wilsonj3\Desktop\trust_behav_data_I_missed_scan';
+
+%New pathway
+data_dir_str = sprintf([local_dir '%d'],id);
+filename = sprintf([destination_path 'trust%d.mat'],id);
+%filename = sprintf('E:/data/trust/scan_behavior/trust%d.mat',id);
+
+%Uncomment the next 2 lines for hallquist data!!
+ data_dir_str = glob([local_dir '*' num2str(id)]);
+ data_dir_str = data_dir_str{1};
+
 
 %% Find the eprime file - MODIFY PATHS IF NEEDED
 %cd('/Users/polinavanyukov/Box Sync/Project Trust Game/eprime')
@@ -35,11 +46,12 @@ else
     stringid=num2str(id);
     id5=stringid(2:end);
 end
-subdir=dir(sprintf('%d*',id));
+%10/21/2016 -- for now
+% % subdir=dir(sprintf('%d*',id));
+% % 
+% % cd(subdir.name)
 
-cd(subdir.name)
-
-file = dir(sprintf('trust*%d*.txt', id));
+file = dir(sprintf('trust*_scan_*%d*.txt', id));
 if isempty(file)
   file = dir(sprintf('trust*%s*.txt', id5));  
 end
@@ -63,7 +75,12 @@ startoffset = 14; % trust: from TrialProc occurrence to the beginning of the blo
 endoffset = 32;   % trust: from TrialProc occurrence to the end of the block containing relevant info
 b = read_in_trust(fname,'TrialProc', fields, startoffset, endoffset);
 
-trials = 192;
+%trials = 192;
+trials = length(b.TrialNumber);
+
+if trials ~= 192
+    warning('Trials are not equal to 192!')
+end
 start = 0;
 
 %identifying the beginning of nonpractice trials
@@ -79,7 +96,9 @@ for i=1:trials
 end
 
 if length(b.TrialNumber) > 192
+    %Remove the practice trials
     b = structfun(@(x) (x(13:end)), b, 'UniformOutput', false);
+    trials = length(b.identity); %Update trial number
 end
 
 %Decisions share = 1; keep = -1; no response = 0;

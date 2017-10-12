@@ -1,4 +1,4 @@
-function foo = createSimpleRegressor(event_begin,event_end,epoch_window,conditional_trials)
+function foo = createSimpleRegressor(block,event_begin,event_end,epoch_window,conditional_trials)
 
 % TODO: incorporate concatenation of different blocks in this function (maybe?)
 
@@ -24,7 +24,7 @@ end
 epoch = arrayfun(@(a,b) a:b,event_begin,event_end,'UniformOutput',false);
 
 % for each "epoch" (array of event_begin -> event_end), count events
-per_event_histcs = cellfun(@(h) histc(h,epoch_window),epoch(conditional_trials),'UniformOutput',false);
+per_event_histcs = cellfun(@(h) histc(h,epoch_window),epoch(conditional_trials,block),'UniformOutput',false);
 foo = logical(sum(cell2mat(per_event_histcs),1));
 
 return
