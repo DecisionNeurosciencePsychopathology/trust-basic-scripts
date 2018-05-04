@@ -9,7 +9,7 @@ format long
 x(:,1) = event_beg';
 x(:,2) = event_end'-event_beg';
 x=x./1000; %Convert to seconds
-x(:,3) = ones(length(x),1).*censor'; %originally was censor'
+x(:,3) = ones(length(x),1).*censor; %originally was censor'
 %write the -stim_times_FSL
 if ~noFSL
     %Save to regs folder
