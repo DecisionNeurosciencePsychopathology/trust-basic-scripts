@@ -2,16 +2,25 @@ function b = trustmakeregressor_group()
 %Grabbing all subjects that have already been processed and turned
 %into .mat file. Then making regressors for each one.
 
-%grabbing files
-%data_dir_str= '/Volumes/bek/trust_analyses/regs/scan_behavior/';
-%data_dump_str = '/Volumes/bek/trust_analyses/regs/';
-%grabbing files
-% data_dir_str= '/Users/polinavanyukov/Box Sync/Project Trust Game/data/processed/scan_behavior';
-% data_dump_str = '/Users/polinavanyukov/Box Sync/Project Trust Game/regs/';
+%% to set location for the input/output files
+os = computer;
+if strcmp(os(1:end-2),'PCWIN')
+    data_dir_str= 'E:\Box Sync\Project Trust Game\data\processed\scan_behavior';
+    data_dump_str = 'E:/data/trust/regs/';
+else
+    [~, me] = system('whoami');
+    me = strtrim(me);    
+    if strcmp(me,'polinavanyukov')==1
+        data_dir_str= '/Users/polinavanyukov/Box Sync/skinner/projects_analyses/Project Trust/data/processed_mat';
+        data_dump_str ='/Users/polinavanyukov/Data/regs/August 18/';
+    else
+        data_dir_str = glob('?');
+        data_dump_str = glob('?');
+    end
+end
 
-data_dir_str= 'E:\Box Sync\Project Trust Game\data\processed\scan_behavior';
-data_dump_str = 'E:/data/trust/regs/';
 
+%% function code begins here
 if ~exist(data_dump_str,'file')
     mkdir(data_dump_str)
     fprintf('Creating id specific reg folder in: %s\n\n',data_dump_str);
@@ -40,11 +49,11 @@ bin_size = 1/frequency_scale_hz*1000; % convert Hz to ms
 %for index=10
 for index=1:num_of_subjects
     try
-        filename = files(index).name;
-        fprintf('File processing: %s\n', filename);
-        id = filename(isstrprop(filename,'digit'));
+        file_name = files(index).name;
+        fprintf('File processing: %s\n', file_name);
+        id = file_name(isstrprop(file_name,'digit'));
         if not(str2double(id)==219956||str2double(id)==220017)
-            load(filename);
+            load(file_name);
             dump_str = [data_dump_str, num2str(id)];
             b.regs = [];
             
@@ -344,7 +353,7 @@ for index=1:num_of_subjects
         end
     catch
         warning('Something went wrong!')
-        fprintf('File processing aborted: %s\n', filename);
+        fprintf('File processing aborted: %s\n', file_name);
         continue
     end
 end

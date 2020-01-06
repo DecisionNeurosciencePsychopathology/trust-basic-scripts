@@ -1,7 +1,23 @@
 %To update the fdmax.mat file
 
-fd_mean = readtable('C:\kod\trust_basic_scripts\fd_trust_mean_output.csv');
-fd_max = readtable('C:\kod\trust_basic_scripts\fd_trust_max_output.csv');
+%% to set location for the input/output files
+os = computer;
+if strcmp(os(1:end-2),'PCWIN')
+    path_to_fd_output = 'C:\kod\trust_basic_scripts\';
+else
+    [~, me] = system('whoami');
+    me = strtrim(me);    
+    if strcmp(me,'polinavanyukov')==1
+        path_to_fd_output = '/Users/polinavanyukov/Scripts/GitHub/trust_clinical/';
+    else
+        path_to_fd_output = glob('?');
+    end
+end
+
+%% function code begins here
+
+fd_mean = readtable(strcat(path_to_fd_output,'fd_mean_output_trust.csv'));
+fd_max = readtable(strcat(path_to_fd_output,'fd_max_output_trust.csv'));
 
 fd_mean = sortrows(fd_mean,'Subjects','ascend');
 fd_max = sortrows(fd_max,'Subjects','ascend');

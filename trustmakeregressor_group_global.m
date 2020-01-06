@@ -129,6 +129,7 @@ for index=46
 
             %epoch window + missed trials + to censor regressor 
             epoch_window = 0:bin_size:taskness.event_end(48, block);
+            
             %% There is a strange glitch, likely owing to the createSimpleRegressor code;
             %% modified by AD to include ITI
             if(sum(b.missed_trials(trial1_index:trial48_index))) > 0

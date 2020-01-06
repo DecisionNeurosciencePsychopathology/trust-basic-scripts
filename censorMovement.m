@@ -1,7 +1,22 @@
 function s = censorMovement(id,s,block)
 %Censor entire blocks if max movement is greater than 5 per block
 %Load in the data
-path_of_motion_table = 'C:\kod\trust_basic_scripts\fd_max.mat';
+
+%% to set location for the input/output files
+os = computer;
+if strcmp(os(1:end-2),'PCWIN')
+    path_of_motion_table = 'C:\kod\trust_basic_scripts\fd_max.mat';
+else
+    [~, me] = system('whoami');
+    me = strtrim(me);    
+    if strcmp(me,'polinavanyukov')==1
+        path_of_motion_table = '/Users/polinavanyukov/Scripts/GitHub/trust_clinical/fd_max.mat';
+    else
+        path_of_motion_table = glob('?');
+    end
+end
+
+%% function code begins here
 load(path_of_motion_table);
 %load('fd_max.mat') %Change path as needed
 

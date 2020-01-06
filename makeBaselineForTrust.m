@@ -36,7 +36,25 @@ convolved_baseline = (convolved_baseline - min(convolved_baseline)) ./ ( max(con
 
 %fname = [num2str(b.id) '_baselineBA.dat'];
 fname = [num2str(b.id) suffix];
-dump_str = 'E:\data\trust\regs\baselines\';
+
+%% to set location for the input/output files
+os = computer;
+if strcmp(os(1:end-2),'PCWIN')
+    dump_str = 'E:\data\trust\regs\baselines\';
+else
+    [~, me] = system('whoami');
+    me = strtrim(me);    
+    if strcmp(me,'polinavanyukov')==1
+        dump_str ='/Users/polinavanyukov/Data/regs/baselines/';
+    else
+        dump_str = glob('?');
+    end
+end
+if ~exist(dump_str)
+    mkdir(dump_str)
+    fprintf('Creating id specific reg folder in: %s\n\n',dump_str);
+end
+%% rest of code
 gdlmwrite([dump_str fname],convolved_baseline','\t')
 
 
