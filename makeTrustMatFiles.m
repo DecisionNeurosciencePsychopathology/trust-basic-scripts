@@ -22,8 +22,8 @@ for i = 1:length(trust_ids)
     try
         b = trustbehavior(trust_ids(i),destin_path,local_dir); %Make sure the paths are correct
     catch
-        continue
         proc_ids(i)=[];
+        continue
     end
 end
 
